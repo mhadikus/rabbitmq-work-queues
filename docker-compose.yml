@@ -1,0 +1,25 @@
+# version: '3'
+# version is now obsolete
+
+services:
+  rabbitmq:
+    image: rabbitmq:${RABBITMQ_VERSION}
+    container_name: ${RABBITMQ_CONTAINER_NAME}
+    volumes:
+      - ${RABBITMQ_HOST_DIRECTORY}:/var/lib/rabbitmq
+    ports:
+      - ${RABBITMQ_AMQP_PORT}:5672
+      - ${RABBITMQ_MANAGEMENT_PORT}:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      # https://www.rabbitmq.com/docs/vhosts
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+      # The RabbitMQ management plugin provides an HTTP-based API for management and monitoring of RabbitMQ nodes and clusters,
+      # along with a browser-based UI and a command line tool, rabbitmqadmin
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_management plugin rabbitmq_management"
+
+networks:
+  default:
+    # Use the default Docker bridge network
+    driver: bridge
