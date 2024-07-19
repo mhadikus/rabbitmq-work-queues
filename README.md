@@ -10,8 +10,8 @@ Create and start containers in the background (-d detached mode)<br/>
 `docker-compose --env-file docker-compose-dev.env up -d`
 
 [/dev/simple-queue](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/simple-queue): send and receive a single message<br/>
-- `python send.py` sends a single message
-- `python receive.py` waits and consumes the message
+- `python -m dev.simple-queue.send` sends a single message
+- `python -m dev.simple-queue.receive` waits and consumes the message
 
 # References
 
