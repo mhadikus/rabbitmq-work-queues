@@ -30,4 +30,4 @@ services:
       - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
       - RABBITMQ_VIRTUAL_HOST=${RABBITMQ_DEFAULT_VHOST}
     volumes:
-      - ${DEV_DIRECTORY}:/mycode
+      - ${HOST_DIRECTORY}:/mycode

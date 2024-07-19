@@ -1,8 +1,9 @@
 import pika, sys, os
 
-from hosts import RABBITMQ_HOST, RABBITMQ_PORT
-from credentials import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VIRTUAL_HOST
+from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT
+from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VIRTUAL_HOST
 
+# Usage: python -m dev.simple-queue.receive
 def main():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
