@@ -2,12 +2,12 @@
 # version is now obsolete
 
 services:
-  rabbitmq:
+  rabbitmq-server:
     image: rabbitmq:${RABBITMQ_VERSION}
     container_name: ${RABBITMQ_CONTAINER_NAME}
     ports:
-      - ${RABBITMQ_AMQP_PORT}:${RABBITMQ_AMQP_PORT}
-      - ${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}
+      - ${RABBITMQ_AMQP_HOST_PORT}:${RABBITMQ_AMQP_PORT}
+      - ${RABBITMQ_MANAGEMENT_HOST_PORT}:${RABBITMQ_MANAGEMENT_PORT}
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
@@ -24,7 +24,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_HOST=rabbitmq-server
       - RABBITMQ_PORT=${RABBITMQ_AMQP_PORT}
       - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}

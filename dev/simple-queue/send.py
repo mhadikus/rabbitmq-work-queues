@@ -2,7 +2,7 @@ import pika
 
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(
-        host='rabbitmq',
+        host='rabbitmq-server',
         port=5672,
         credentials=pika.PlainCredentials('rabbitmq-dev', 'rabbitmq-dev'),
         virtual_host='my-virtual-host'))
