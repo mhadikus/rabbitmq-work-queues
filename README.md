@@ -4,10 +4,11 @@
 ## Starting RabbitMQ and Management Plugin with Docker Compose
 
 Build an image for running producer and consumers with Python<br/>
-`docker build -t producer-consumer .`
+- `docker build -t producer-consumer .`
 
 Create and start containers in the background (-d detached mode)<br/>
-`docker-compose --env-file docker-compose-dev.env up -d`
+- `docker-compose --env-file docker-compose-dev.env up -d`
+- http://localhost:15673 to view the management dashboard
 
 [/dev/simple-queue](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/simple-queue): send and receive a single message<br/>
 - `python -m dev.simple-queue.send` sends a single message

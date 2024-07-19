@@ -1,7 +1,7 @@
 import pika, sys, os
 
-from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT
-from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VIRTUAL_HOST
+from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST
+from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD
 
 # Usage: python -m dev.simple-queue.receive
 def main():
