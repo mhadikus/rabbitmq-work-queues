@@ -1,11 +1,14 @@
 import pika
 
+from hosts import RABBITMQ_HOST, RABBITMQ_PORT
+from credentials import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VIRTUAL_HOST
+
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(
-        host='rabbitmq-server',
-        port=5672,
-        credentials=pika.PlainCredentials('rabbitmq-dev', 'rabbitmq-dev'),
-        virtual_host='my-virtual-host'))
+        host=RABBITMQ_HOST,
+        port=RABBITMQ_PORT,
+        credentials=pika.PlainCredentials(RABBITMQ_USER, RABBITMQ_PASSWORD),
+        virtual_host=RABBITMQ_VIRTUAL_HOST))
 
 
 channel = connection.channel()
