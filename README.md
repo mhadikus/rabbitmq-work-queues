@@ -14,6 +14,10 @@ Create and start containers in the background (-d detached mode)<br/>
 - `python -m dev.simple-queue.send` sends a single message
 - `python -m dev.simple-queue.receive` waits and consumes the message
 
+[/dev/work-queue](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/work-queue): distributing tasks among workers (competing consumers pattern)<br/>
+- `python -m dev.work-queue.producer [number_of_tasks]` queue a number of tasks
+- `python -m dev.work-queue.worker` consumes and acks the message
+
 # References
 
  - [RabbitMQ Setup with Docker](https://medium.com/@buttraheel6/simplifying-rabbitmq-setup-with-docker-a-step-by-step-guide-9698dc9ea4ff)
