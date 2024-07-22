@@ -19,6 +19,7 @@ def main():
     def callback(ch, method, properties, body):
         print(f" [x] Received {body}")
 
+    # Turn off manual ack by setting auto_ack=True
     channel.basic_consume(queue='my-simple-queue', on_message_callback=callback, auto_ack=True)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')

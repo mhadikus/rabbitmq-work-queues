@@ -12,7 +12,6 @@ def main():
             credentials=pika.PlainCredentials(RABBITMQ_USER, RABBITMQ_PASSWORD),
             virtual_host=RABBITMQ_VIRTUAL_HOST))
 
-
     channel = connection.channel()
 
     channel.queue_declare(queue='my-simple-queue')
