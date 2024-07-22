@@ -4,7 +4,7 @@ import pika
 from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST
 from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD
 
-# Usage: python -m dev.work-queue.producer [number_of_tasks]
+# Usage: python -m dev.publish-subscribe.producer [number_of_messages]
 def main():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
@@ -15,23 +15,21 @@ def main():
 
     channel = connection.channel()
 
-    # Ensure the queue can survive a RabbitMQ node restart by setting durable=True
-    channel.queue_declare(queue='my-work-queue', durable=True)
+    # Set fanout exchange to broadcast messages to all queues
+    channel.exchange_declare(exchange='my_fanout_exchange', exchange_type='fanout')
 
-    number_of_tasks = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+    number_of_messages = int(sys.argv[1]) if len(sys.argv) > 1 else 1
 
-    for i in range(number_of_tasks):
+    for i in range(number_of_messages):
         # Send json data, e.g., {'Task': {'id': '0x1', 'duration': 2}}
         duration = i + 1
         message = f"{{\"Task\": {{ \"id\": \"{hex(i)}\", \"duration\": {duration} }} }}"
 
-        # Use the default exchange (exchange_type='direct') identified by an empty string
-        # Mark messages as persistent by supplying delivery_mode
+        # Publish to the named exchange
         channel.basic_publish(
-            exchange='',
-            routing_key='my-work-queue',
-            body=message,
-            properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent))
+            exchange='my_fanout_exchange',
+            routing_key='',
+            body=message)
         print(f" [x] Sent '{message}'")
 
     # Ensure network buffers were flushed and our message was actually delivered to RabbitMQ

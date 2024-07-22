@@ -1,5 +1,5 @@
 # RabbitMQ Work Queues with Docker and Python
- Using RabbitMQ to distribute tasks among workers using the competing consumers pattern
+ Using RabbitMQ to distribute tasks among workers using producer consumer patterns
 
 ## Starting RabbitMQ and Management Plugin with Docker Compose
 
@@ -17,6 +17,10 @@ Create and start containers in the background (-d detached mode)<br/>
 [/dev/work-queue](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/work-queue): distributing tasks among workers (competing consumers pattern)<br/>
 - `python -m dev.work-queue.producer [number_of_tasks]` queue a number of tasks
 - `python -m dev.work-queue.worker` consumes and acks the message
+
+[/dev/publish-subscribe](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/publish-subscribe): deliver messages to multiple consumers (publish/subscribe)<br/>
+- `python -m dev.publish-subscribe.producer [number_of_messages]` broadcasts messages to all queues
+- `python -m dev.publish-subscribe.worker` subscribes to consume the published messages
 
 # References
 

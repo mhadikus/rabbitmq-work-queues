@@ -16,7 +16,7 @@ def main():
 
     channel.queue_declare(queue='my-simple-queue')
 
-    # Use the default exchange identified by an empty string
+    # Use the default exchange (exchange_type='direct') identified by an empty string
     channel.basic_publish(exchange='', routing_key='my-simple-queue', body='Simple Task')
     print(" [x] Sent 'Simple Task'")
 

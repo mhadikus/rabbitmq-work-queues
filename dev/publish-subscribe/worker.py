@@ -7,7 +7,7 @@ import pika
 from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST
 from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD
 
-# Usage: python -m dev.work-queue.worker
+# Usage: python -m dev.publish-subscribe.worker
 def main():
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
@@ -18,15 +18,24 @@ def main():
     )
     channel = connection.channel()
 
-    # Ensure the queue can survive a RabbitMQ node restart by setting durable=True
-    channel.queue_declare(queue='my-work-queue', durable=True)
+    # Set fanout exchange to broadcast messages to all queues
+    channel.exchange_declare(exchange='my_fanout_exchange', exchange_type='fanout')
 
-    # Don't dispatch a new message to this worker until it has processed and acknowledged the previous one
-    channel.basic_qos(prefetch_count=1)
+    # Create a queue whose name will be chosen by random by the server
+    # Set exclusive=True to delete the queue once consumer connection is closed
+    result = channel.queue_declare(queue='', exclusive=True)
+    queue_name = result.method.queue
 
-    channel.basic_consume(queue='my-work-queue', on_message_callback=on_message_received)
+    # Binding to tell the exchange to send messages to our queue
+    channel.queue_bind(exchange='my_fanout_exchange', queue=queue_name)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
+
+    # Don't dispatch a new message to this worker until it has processed and acknowledged the previous one
+    # channel.basic_qos(prefetch_count=1)
+
+    channel.basic_consume(queue=queue_name, on_message_callback=on_message_received, auto_ack=True)
+
     channel.start_consuming()
 
 def on_message_received(ch, method, properties, body):
@@ -40,7 +49,7 @@ def on_message_received(ch, method, properties, body):
 
     # Manually ack the message
     # A timeout (30 minutes by default) is enforced on consumer delivery acknowledgement
-    ch.basic_ack(delivery_tag = method.delivery_tag)
+    # ch.basic_ack(delivery_tag = method.delivery_tag)
 
 if __name__ == '__main__':
     try:
