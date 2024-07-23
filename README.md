@@ -23,7 +23,7 @@ Create and start containers in the background (-d detached mode)<br/>
 - `python -m dev.publish-subscribe.worker` subscribe to consume the published messages
 
 [/dev/dead-letter](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/dead-letter): configure a dead letter exchange<br/>
-- `python -m dev.publish-subscribe.producer [number_of_messages] [number_of_errors]`
+- `python -m dev.publish-subscribe.producer [number_of_tasks] [number_of_errors]`
   - queue a number of tasks marked with zero or more errors
 - `python -m dev.publish-subscribe.worker`
   - consume and ack the task, or send it to the dead letter queue if `error` is `true`
