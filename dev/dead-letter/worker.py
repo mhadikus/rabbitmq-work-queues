@@ -32,7 +32,7 @@ def consume_work():
         raise
 
 def on_message_received(channel, method, properties, body):
-    # body is a byte sequence, e.g., b'{'Task': {'id': '0x1', 'duration': 2}}'
+    # body is a byte sequence, e.g., b'{'Task': {'id': '0x1', 'duration': 2}, 'error': false}'
     decoded = body.decode('UTF-8')
     parsedJson = json.loads(decoded)
     print(f" [x] Received {parsedJson}")

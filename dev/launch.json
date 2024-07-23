@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "work-queue.producer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/work-queue/producer.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            },
+            "args": [
+                "3"
+            ]
+        },
+        {
+            "name": "work-queue.worker",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/work-queue/worker.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            }
+        },
+        {
+            "name": "dead-letter.producer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/dead-letter/producer.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            },
+            "args": [
+                "5",
+                "2"
+            ]
+        },
+        {
+            "name": "dead-letter.worker",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/dead-letter/worker.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            }
+        }
+    ]
+}

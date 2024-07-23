@@ -28,7 +28,20 @@ Create and start containers in the background (-d detached mode)<br/>
 - `python -m dev.publish-subscribe.worker`
   - consume and ack the task, or send it to the dead letter queue if `error` is `true`
 
+## How to debug with Visual Studio Code
+
+- Install the following extensions
+  - [Docker](https://code.visualstudio.com/docs/containers/overview) extension to debug containerized applications
+  - [Dev Containers](https://code.visualstudio.com/docs/devcontainers/tutorial#_install-the-extension) to run Visual Studio Code inside a Docker container
+  - Restart Visual Studio Code
+- In the Docker tab, right click on the container and select _Attach Visual Studio Code_
+  - This opens a new window that is attached to the container
+  - Install the Python extension on the container
+  - Restart Visual Studio Code
+- Start debugging with [`launch.json`](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/launch.json) configuration file
+
 # References
 
  - [RabbitMQ Setup with Docker](https://medium.com/@buttraheel6/simplifying-rabbitmq-setup-with-docker-a-step-by-step-guide-9698dc9ea4ff)
  - [RabbitMQ Work Queues Tutorials](https://www.rabbitmq.com/tutorials#2-work-queues)
+ - [Developing inside a Container with VS Code](https://code.visualstudio.com/docs/devcontainers/containers)
