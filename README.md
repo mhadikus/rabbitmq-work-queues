@@ -38,7 +38,7 @@ Create and start containers in the background (-d detached mode)<br/>
   - This opens a new window that is attached to the container
   - Install the Python extension on the container
   - Restart Visual Studio Code
-- Start debugging with [`launch.json`](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/launch.json) configuration file
+- Start debugging with [launch.json](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/launch.json) configuration file
 
 # References
 
