@@ -45,3 +45,6 @@ Create and start containers in the background (-d detached mode)<br/>
  - [RabbitMQ Setup with Docker](https://medium.com/@buttraheel6/simplifying-rabbitmq-setup-with-docker-a-step-by-step-guide-9698dc9ea4ff)
  - [RabbitMQ Work Queues Tutorials](https://www.rabbitmq.com/tutorials#2-work-queues)
  - [Developing inside a Container with VS Code](https://code.visualstudio.com/docs/devcontainers/containers)
+ - [Pika Python Documentation](https://pika.readthedocs.io/en/stable)
+ - [Celery Python Documentation](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)
+   - [What does Celery offer that Pika doesn't?](https://stackoverflow.com/questions/23766658/rabbitmq-what-does-celery-offer-that-pika-doesnt)
