@@ -1,5 +1,5 @@
-# RabbitMQ Work Queues with Docker and Python
- Using RabbitMQ to distribute tasks among workers using producer consumer patterns
+# RabbitMQ Python Work Queues with Docker (and AWS S3/MinIO)
+ Using RabbitMQ to distribute tasks among workers using various producer consumer patterns
 
 ## Starting RabbitMQ and Management Plugin with Docker Compose
 
@@ -28,6 +28,13 @@ Create and start containers in the background (-d detached mode)<br/>
 - `python -m dev.publish-subscribe.worker`
   - consume and ack the task, or send it to the dead letter queue if `error` is `true`
 
+[/dev/rpc-minio](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/rpc-minio): request/reply [RPC](https://www.rabbitmq.com/tutorials#6-rpc) pattern with [MinIO](https://min.io/) and AWS [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#using-boto3) client<br/>
+- `python -m dev.rpc-minio.server`
+  - wait for RPC requests from clients, create json data as the response, and store it in MinIO bucket
+- `python -m dev.rpc-minio.client`
+  - send an RPC request to the server, read the response json data from the MinIO bucket and print it
+- http://localhost:9001 to view the MinIO object store
+
 ## How to debug with Visual Studio Code
 
 - Install the following extensions
@@ -43,7 +50,7 @@ Create and start containers in the background (-d detached mode)<br/>
 # References
 
  - [RabbitMQ Setup with Docker](https://medium.com/@buttraheel6/simplifying-rabbitmq-setup-with-docker-a-step-by-step-guide-9698dc9ea4ff)
- - [RabbitMQ Work Queues Tutorials](https://www.rabbitmq.com/tutorials#2-work-queues)
+ - [RabbitMQ Queue Tutorials](https://www.rabbitmq.com/tutorials#queue-tutorials)
  - [Developing inside a Container with VS Code](https://code.visualstudio.com/docs/devcontainers/containers)
  - [Pika Python Documentation](https://pika.readthedocs.io/en/stable)
  - [Celery Python Documentation](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)

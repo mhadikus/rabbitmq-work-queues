@@ -11,4 +11,7 @@ RUN python -m pip install pika --upgrade
 # Install retry decorator for retrying failed tasks
 RUN python -m pip install retry --upgrade
 
+# Install boto3 for AWS S3/MinIO operations
+RUN python -m pip install boto3 --upgrade
+
 ENTRYPOINT [ "/bin/sh" ]

@@ -51,6 +51,32 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
             }
+        },
+        {
+            "name": "rpc-minio.server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/rpc-minio/server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            },
+            "args": [
+                "5",
+                "2"
+            ]
+        },
+        {
+            "name": "rpc-minio.client",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/rpc-minio/client.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            }
         }
     ]
 }

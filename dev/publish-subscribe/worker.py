@@ -39,10 +39,6 @@ def on_message_received(ch, method, properties, body):
     # Pretend to do the work by sleeping for the specified duration
     time.sleep(int(parsedJson['Task']['duration']))
 
-    # Manually ack the message
-    # A timeout (30 minutes by default) is enforced on consumer delivery acknowledgement
-    # ch.basic_ack(delivery_tag = method.delivery_tag)
-
 if __name__ == '__main__':
     try:
         main()
