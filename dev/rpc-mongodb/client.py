@@ -40,7 +40,7 @@ class RpcClient:
                 response = json.loads(response_as_string)
                 db =  self.mongo_client[response["db"]]
                 collection = db[response["collection"]]
-                response_data = collection.find_one({"_id": ObjectId(response["_id"])})
+                response_data = collection.find_one({"task_id": response["task_id"]})
                 self.response = response_data
             except:
                 print(f"Unexpected error: {traceback.format_exc()}")
@@ -55,7 +55,7 @@ class RpcClient:
         # Publish the request with two properties: reply_to and correlation_id
         self.channel.basic_publish(
             exchange='',
-            routing_key='my-rpc-queue',
+            routing_key='my-rpc-mongo-queue',
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=self.corr_id,
