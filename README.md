@@ -1,4 +1,4 @@
-# RabbitMQ Python Work Queues with Docker (and AWS S3/MinIO)
+# RabbitMQ Python with Docker, AWS S3/MinIO, and MongoDB
  Using RabbitMQ to distribute tasks among workers using various producer consumer patterns
 
 ## Starting RabbitMQ and Management Plugin with Docker Compose
