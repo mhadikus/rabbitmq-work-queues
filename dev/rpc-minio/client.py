@@ -49,7 +49,7 @@ class RpcClient:
         # Publish the request with two properties: reply_to and correlation_id
         self.channel.basic_publish(
             exchange='',
-            routing_key='my-rpc-queue',
+            routing_key='my-rpc-minio-queue',
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=self.corr_id,

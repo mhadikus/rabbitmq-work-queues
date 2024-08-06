@@ -11,12 +11,12 @@ def main():
     connection, channel = create_connection()
 
     # Ensure the queue can survive a RabbitMQ node restart by setting durable=True
-    channel.queue_declare(queue='my-rpc-queue', durable=True)
+    channel.queue_declare(queue='my-rpc-minio-queue', durable=True)
 
     # Don't dispatch a new request to this server until it has processed and acknowledged the previous one
     channel.basic_qos(prefetch_count=1)
 
-    channel.basic_consume(queue='my-rpc-queue', on_message_callback=on_request_received)
+    channel.basic_consume(queue='my-rpc-minio-queue', on_message_callback=on_request_received)
 
     print(' [*] Waiting for RPC requests. To exit press CTRL+C')
     channel.start_consuming()
