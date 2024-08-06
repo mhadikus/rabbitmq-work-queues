@@ -34,6 +34,9 @@ services:
       - MINIO_URL=${MINIO_URL}
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+      - MONGODB_URI=mongodb://{username}:{password}@mongodb:${MONGODB_PORT}
+      - MONGODB_USER=${MONGODB_USER}
+      - MONGODB_PW=${MONGODB_PW}
     volumes:
       - ${HOST_DIRECTORY}:/mycode
 
@@ -63,3 +66,15 @@ services:
       /usr/bin/mc mb ${MINIO_BUCKETS};
       exit 0;
       "
+
+  # MongoDB Server
+  mongodb:
+    image: mongo
+    ports:
+      - ${MONGODB_PORT}:${MONGODB_PORT}
+    volumes:
+      - ${MONGODB_HOST_DIRECTORY}:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}

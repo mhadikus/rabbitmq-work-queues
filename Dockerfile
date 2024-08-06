@@ -14,4 +14,7 @@ RUN python -m pip install retry --upgrade
 # Install boto3 for AWS S3/MinIO operations
 RUN python -m pip install boto3 --upgrade
 
+# Install PyMongo (Python driver for MongoDB)
+RUN python -m pip install pymongo --upgrade
+
 ENTRYPOINT [ "/bin/sh" ]

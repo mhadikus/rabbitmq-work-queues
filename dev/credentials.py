@@ -9,3 +9,6 @@ RABBITMQ_PASSWORD = get_environment_variable("RABBITMQ_PASSWORD")
 
 MINIO_ROOT_USER = get_environment_variable("MINIO_ROOT_USER")
 MINIO_ROOT_PASSWORD = get_environment_variable("MINIO_ROOT_PASSWORD")
+
+MONGODB_USER = get_environment_variable("MONGODB_USER")
+MONGODB_PW = get_environment_variable("MONGODB_PW")

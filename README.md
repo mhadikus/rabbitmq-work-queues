@@ -35,6 +35,13 @@ Create and start containers in the background (-d detached mode)<br/>
   - send an RPC request to the server, read the response json data from the MinIO bucket and print it
 - http://localhost:9001 to view the MinIO object store
 
+[/dev/rpc-mongodb](https://github.com/mhadikus/rabbitmq-work-queues/tree/main/dev/rpc-mongodb): request/reply [RPC](https://www.rabbitmq.com/tutorials#6-rpc) pattern with [PyMongo](https://pymongo.readthedocs.io/en/stable/index.html) (Python driver for MongoDB)<br/>
+- `python -m dev.rpc-mongodb.server`
+  - wait for RPC requests from clients, insert bson data to MongoDB, and send the document id as the response
+- `python -m dev.rpc-mongodb.client`
+  - send an RPC request to the server, read the bson data from MongoDB and print it
+- Use `Studio 3T` or `Robo 3T` to connect to MongoBD `localhost:27017`
+
 ## How to debug with Visual Studio Code
 
 - Install the following extensions

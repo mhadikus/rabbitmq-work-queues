@@ -8,3 +8,5 @@ RABBITMQ_PORT = get_environment_variable("RABBITMQ_PORT", "5672")
 RABBITMQ_VIRTUAL_HOST = get_environment_variable("RABBITMQ_VIRTUAL_HOST")
 
 MINIO_URL = get_environment_variable("MINIO_URL", "http://minio:9000")
+
+MONGODB_URI = get_environment_variable("MONGODB_URI")

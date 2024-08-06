@@ -1,8 +1,18 @@
+import traceback
 import pika
 import boto3
+import pymongo
 
-from dev.hosts import RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST, MINIO_URL
-from dev.credentials import RABBITMQ_USER, RABBITMQ_PASSWORD, MINIO_ROOT_USER, MINIO_ROOT_PASSWORD
+from pymongo.server_api import ServerApi
+
+from dev.hosts import \
+    RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST, \
+    MINIO_URL, \
+    MONGODB_URI
+from dev.credentials import \
+    RABBITMQ_USER, RABBITMQ_PASSWORD, \
+    MINIO_ROOT_USER, MINIO_ROOT_PASSWORD, \
+    MONGODB_USER, MONGODB_PW
 
 def create_connection():
     connection = pika.BlockingConnection(
@@ -51,3 +61,22 @@ def create_s3_client():
         aws_secret_access_key=MINIO_ROOT_PASSWORD,
     )
     return s3_client
+
+def create_mongo_client():
+    mongo_host = MONGODB_URI.format(username=MONGODB_USER, password=MONGODB_PW)
+    client = pymongo.MongoClient(
+        mongo_host,
+        server_api=ServerApi("1"),
+        serverSelectionTimeoutMS=30000)
+    # MongoClient ctor does not block
+    # and does not raise ConnectionFailure/ConfigurationError if credentials are wrong.
+    # Check the connection with ping.
+    # https://pymongo.readthedocs.io/en/stable/api/pymongo/mongo_client.html#pymongo.mongo_client.MongoClient
+    try:
+        client.admin.command("ping")
+    except Exception:
+        # Rethrow if there is a connection error.
+        message = "Error connecting to Mongo Server\n" f"{traceback.format_exc()}"
+        print(message)
+        raise
+    return client
