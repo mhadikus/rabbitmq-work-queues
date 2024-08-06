@@ -1,5 +1,6 @@
-import pprint
+import json
 import os
+import pprint
 import sys
 import traceback
 import pika
@@ -35,10 +36,11 @@ class RpcClient:
         if self.corr_id == props.correlation_id:
             try:
                 # The response body contains the document ID in MongoDB
-                document_id = body.decode('UTF-8')
-                db =  self.mongo_client.my_data #  self.mongo_client["my_data"]
-                collection = db.my_collection # db["my_collection"]
-                response_data = collection.find_one({"_id": ObjectId(document_id)})
+                response_as_string = body.decode('UTF-8')
+                response = json.loads(response_as_string)
+                db =  self.mongo_client[response["db"]]
+                collection = db[response["collection"]]
+                response_data = collection.find_one({"_id": ObjectId(response["_id"])})
                 self.response = response_data
             except:
                 print(f"Unexpected error: {traceback.format_exc()}")

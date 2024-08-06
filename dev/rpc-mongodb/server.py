@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import sys
 import traceback
@@ -26,27 +27,35 @@ def on_request_received(ch, method, properties, body):
     # so decode it to UTF-8
     taskId = body.decode('UTF-8')
 
-    response_data = {
+    bson_data = {
         "task_id": taskId,
         "tags": ["mongodb", "python", "pymongo"],
-        "date": datetime.datetime.now(tz=datetime.timezone.utc)
+        "date": datetime.datetime.now(tz=datetime.timezone.utc),
     }
 
     try:
-        # Insert the response data to MongoDB
+        # Insert the bson data to MongoDB
         mongo_client = create_mongo_client()
         db = mongo_client.my_data # mongo_client["my_data"]
         collection = db.my_collection # db["my_collection"]
-        object_id = collection.insert_one(response_data).inserted_id
+        object_id = collection.insert_one(bson_data).inserted_id
         document_id = str(object_id)
 
-        # Publish the document_id to the named exchange
+        response = {
+            "db": "my_data",
+            "collection": "my_collection",
+            "_id": document_id,
+            "task_id": taskId,
+        }
+        response_as_string = json.dumps(response)
+
+        # Publish the response to the named exchange
         ch.basic_publish(
             exchange='',
             routing_key=properties.reply_to,
             properties=pika.BasicProperties(correlation_id = properties.correlation_id),
-            body=document_id)
-        print(f" [x] Sent MongoDB document ID: {document_id} for task ID: {taskId}")
+            body=response_as_string)
+        print(f" [x] Sent: {response_as_string}")
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
     except:
