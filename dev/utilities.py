@@ -62,7 +62,7 @@ def create_s3_client():
     )
     return s3_client
 
-def create_mongo_client():
+def create_mongo_client() -> pymongo.MongoClient:
     mongo_host = MONGODB_URI.format(username=MONGODB_USER, password=MONGODB_PW)
     client = pymongo.MongoClient(
         mongo_host,

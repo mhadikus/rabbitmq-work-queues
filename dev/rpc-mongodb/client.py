@@ -8,8 +8,6 @@ import uuid
 
 from dev.utilities import create_connection, create_mongo_client
 
-from bson.objectid import ObjectId
-
 class RpcClient:
     def __init__(self):
         self.connection, self.channel = create_connection()
@@ -35,7 +33,7 @@ class RpcClient:
         # If so, save the response and break the consuming loop
         if self.corr_id == props.correlation_id:
             try:
-                # The response body contains the document ID in MongoDB
+                # The response body contains the task ID in MongoDB
                 response_as_string = body.decode('UTF-8')
                 response = json.loads(response_as_string)
                 db =  self.mongo_client[response["db"]]
@@ -46,7 +44,7 @@ class RpcClient:
                 print(f"Unexpected error: {traceback.format_exc()}")
                 raise
 
-    def send_request(self, taskId):
+    def send_request(self, taskId: uuid.UUID) -> dict:
         self.response = None
 
         # Generate a unique correlation_id for the request
