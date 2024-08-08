@@ -28,7 +28,7 @@ class RpcClient:
         self.response = None
         self.corr_id = None
 
-    def on_response(self, ch, method, props, body):
+    def on_response(self, ch, method, props, body: bytes):
         # Check if the correlation_id is the one we're looking for
         # If so, save the response and break the consuming loop
         if self.corr_id == props.correlation_id:

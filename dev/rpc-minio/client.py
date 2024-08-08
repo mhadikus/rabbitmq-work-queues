@@ -1,4 +1,3 @@
-import json
 import os
 import sys
 import traceback
@@ -10,6 +9,8 @@ from dev.utilities import create_connection, create_s3_client
 class RpcClient:
     def __init__(self):
         self.connection, self.channel = create_connection()
+
+        self.s3_client = create_s3_client()
 
         # Declare an exclusive callback queue for replies
         result = self.channel.queue_declare(queue='', exclusive=True)
@@ -25,7 +26,7 @@ class RpcClient:
         self.response = None
         self.corr_id = None
 
-    def on_response(self, ch, method, props, body):
+    def on_response(self, ch, method, props, body: bytes):
         # Check if the correlation_id is the one we're looking for
         # If so, save the response and break the consuming loop
         if self.corr_id == props.correlation_id:
@@ -33,14 +34,13 @@ class RpcClient:
                 # The response body contains the S3 object key (taskId)
                 s3_object_key = body.decode('UTF-8')
                 # Read the json data from S3 bucket
-                s3_client = create_s3_client()
-                s3_object = s3_client.get_object(Bucket="my-bucket-1", Key=s3_object_key)
+                s3_object = self.s3_client.get_object(Bucket="my-bucket-1", Key=s3_object_key)
                 self.response = s3_object["Body"].read()
             except:
                 print(f"Unexpected error: {traceback.format_exc()}")
                 raise
 
-    def send_request(self, taskId):
+    def send_request(self, taskId: uuid.UUID) -> bytes:
         self.response = None
 
         # Generate a unique correlation_id for the request
@@ -71,7 +71,7 @@ def main():
 
     print(f" [x] Requesting {taskId}")
     response = rpc_client.send_request(taskId)
-    print(f" [.] Received {response}")
+    print(f" [.] Received {response.decode('UTF-8')}")
 
 if __name__ == '__main__':
     try:
