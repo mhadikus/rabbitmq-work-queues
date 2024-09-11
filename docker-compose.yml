@@ -78,3 +78,30 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+
+  # Elasticsearch Engine
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    ports:
+      - ${ELASTICSEARCH_API_PORT}:${ELASTICSEARCH_API_PORT}
+      - ${ELASTICSEARCH_TRANSPORT_PORT}:${ELASTICSEARCH_TRANSPORT_PORT}
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+    volumes:
+      - ${ELASTICSEARCH_DIRECTORY}:/usr/share/elasticsearch/data
+
+  # Kibana Dashboard for Elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION}
+    ports:
+      - ${KIBANA_PORT}:${KIBANA_PORT}
+    environment:
+      - ELASTICSEARCH=http://elasticsearch:${ELASTICSEARCH_API_PORT}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
+    volumes:
+      - ${KIBANA_HOST_DIRECTORY}:/usr/share/kibana/data

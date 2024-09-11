@@ -95,6 +95,28 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
             }
+        },
+        {
+            "name": "rpc-elasticsearch.server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/rpc-elasticsearch/server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            }
+        },
+        {
+            "name": "rpc-elasticsearch.client",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dev/rpc-elasticsearch/client.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dev",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"
+            }
         }
     ]
 }

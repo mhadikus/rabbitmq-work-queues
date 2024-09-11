@@ -4,6 +4,7 @@ import boto3
 import pymongo
 
 from pymongo.server_api import ServerApi
+from elasticsearch import Elasticsearch
 
 from dev.hosts import \
     RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST, \
@@ -80,3 +81,28 @@ def create_mongo_client() -> pymongo.MongoClient:
         print(message)
         raise
     return client
+
+def create_elasticsearch_client():
+    # TODO: Read params from env
+    client = Elasticsearch(
+        "http://elasticsearch:9200",
+        http_auth=("elastic", "elastic-dev"),
+        http_compress=True,
+        timeout=600,
+    )
+
+    if client is not None:
+        try:
+            # Check the connection by obtaining the cluster info
+            # https://elasticsearch-py.readthedocs.io/en/v7.13.4/api.html?highlight=info#elasticsearch.Elasticsearch.info
+            connection_info = client.info()
+            message = "Connected to elasticsearch\n" f"{connection_info}"
+            print(message)
+        except Exception:
+            # Rethrow if there is a connection error.
+            message = "Error connecting to elasticsearch\n" f"{traceback.format_exc()}"
+            print(message)
+            raise
+
+    return client
+

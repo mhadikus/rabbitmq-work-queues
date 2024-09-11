@@ -17,4 +17,7 @@ RUN python -m pip install boto3 --upgrade
 # Install PyMongo (Python driver for MongoDB)
 RUN python -m pip install pymongo --upgrade
 
+# Install Elasticsearch Python client
+RUN python -m pip install elasticsearch --upgrade
+
 ENTRYPOINT [ "/bin/sh" ]
