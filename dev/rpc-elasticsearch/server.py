@@ -6,11 +6,13 @@ import traceback
 import pika
 
 from dev.utilities import create_connection, create_elasticsearch_client
+from elasticsearch.helpers import bulk
 
 class RpcServer:
     def __init__(self):
         self.connection, self.channel = create_connection()
         self.elasticsearch_client = create_elasticsearch_client()
+        self.elasticsearch_index = "my_index"
 
     def process_request(self):
         # Ensure the queue can survive a RabbitMQ node restart by setting durable=True
@@ -28,17 +30,14 @@ class RpcServer:
         # body is a byte sequence, e.g., b'573b0ae4-4ea8-11ef-a82a-0242ac130002'
         # so decode it to UTF-8
         taskId = body.decode('UTF-8')
-
-        bson_data = {
-            "task_id": taskId,
-            "tags": ["elasticsearch", "python"],
-            "date": datetime.datetime.now(tz=datetime.timezone.utc),
-        }
-
         try:
-            # TODO: Insert data
+            bulk_actions = self.create_actions_to_insert(taskId)
+
+            # https://elasticsearch-py.readthedocs.io/en/latest/helpers.html
+            bulk(self.elasticsearch_client, bulk_actions)
+
             response = {
-                "index": "my_index",
+                "index": self.elasticsearch_index,
                 "task_id": taskId,
             }
             response_as_string = json.dumps(response)
@@ -55,6 +54,25 @@ class RpcServer:
         except:
             print(f"Unexpected error: {traceback.format_exc()}")
             raise
+
+    def create_actions_to_insert(self, taskId):
+        date = datetime.datetime.now(tz=datetime.timezone.utc)
+        date_string = date.strftime("%B %d, %Y") # e.g., 'September 13, 2024'
+
+        data_to_insert = {
+            "task_id": taskId,
+            "tags": ["elasticsearch", "python"],
+            "date": date,
+            "description": f"Request #{taskId} received from client on {date_string}"
+        }
+
+        actions = {
+            "_index": self.elasticsearch_index,
+             "_id": taskId,
+            "_source": data_to_insert
+        }
+
+        return [ actions ]
 
 # Usage: python -m dev.rpc-elasticsearch.server
 def main():
