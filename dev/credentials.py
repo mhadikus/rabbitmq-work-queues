@@ -12,3 +12,6 @@ MINIO_ROOT_PASSWORD = get_environment_variable("MINIO_ROOT_PASSWORD")
 
 MONGODB_USER = get_environment_variable("MONGODB_USER")
 MONGODB_PW = get_environment_variable("MONGODB_PW")
+
+ELASTICSEARCH_USERNAME=get_environment_variable("ELASTICSEARCH_USERNAME")
+ELASTICSEARCH_PASSWORD=get_environment_variable("ELASTICSEARCH_PASSWORD")

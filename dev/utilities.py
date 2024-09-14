@@ -9,11 +9,13 @@ from elasticsearch import Elasticsearch
 from dev.hosts import \
     RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_VIRTUAL_HOST, \
     MINIO_URL, \
-    MONGODB_URI
+    MONGODB_URI, \
+    ELASTICSEARCH_URL
 from dev.credentials import \
     RABBITMQ_USER, RABBITMQ_PASSWORD, \
     MINIO_ROOT_USER, MINIO_ROOT_PASSWORD, \
-    MONGODB_USER, MONGODB_PW
+    MONGODB_USER, MONGODB_PW, \
+    ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD
 
 def create_connection():
     connection = pika.BlockingConnection(
@@ -83,10 +85,9 @@ def create_mongo_client() -> pymongo.MongoClient:
     return client
 
 def create_elasticsearch_client():
-    # TODO: Read params from env
     client = Elasticsearch(
-        "http://elasticsearch:9200",
-        http_auth=("elastic", "elastic-dev"),
+        ELASTICSEARCH_URL,
+        http_auth=(ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD),
         http_compress=True,
         timeout=600,
     )
